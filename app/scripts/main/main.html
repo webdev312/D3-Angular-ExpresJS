@@ -1,0 +1,102 @@
+<div ng-controller="dataCtrl" class="dark-gray">
+    <md-toolbar layout="row" class="md-hue-1">
+    <div class="md-toolbar-tools"><h1><b>Orza</b></h1></div>
+    </md-toolbar>
+    <!--title-->
+    <div class="load-screen {{loadingShow}}">
+    <md-progress-circular class="load-title" md-mode="indeterminate" md-diameter="76"></md-progress-circular>
+    </div>
+    <!--controller start-->
+    <div ng-if="isRecRet">
+        <div ng-controller="portCtrl as here">
+        
+        <!--portfolio name, stats and chart-->
+        <md-grid-list md-cols-xs="4" md-cols-sm="4" md-cols-md="8" md-cols-lg="10" md-cols-xl="12"
+                        md-row-height-xs="80px" md-row-height-sm="80px" md-row-height-md="220px" md-row-height-lg="220px" md-row-height-xl="220px" 
+                        md-gutter="8px"
+                        class="md-port-grid">
+            <!--portfolio name and placeholder for name input-->
+            <md-grid-tile md-colspan-xs="4" md-colspan-sm="4" md-colspan-md="2" md-colspan-lg="2" md-colspan-xl="2" md-rowspan-xs="1" md-rowspan-sm="1" class="gray">
+                <div layout="column">
+                <label class="md-label-portfolio">Comparison portfolio</label>
+                <md-select ng-model="userModel" placeholder="User list" class="md-no-underline md-select-portfolio" ng-change="onChangeUserList(userModel)">
+                    <md-option ng-repeat="dbUsers in arrDBUserList" value = "{{dbUsers.portfolio_id}}">{{dbUsers.portfolio_name_saver}}</md-option>
+                </md-select>
+                <label class="md-label-portfolio">Input portfolio name</label>
+                <md-input-container class="md-block md-select-portfolio">
+                    <input ng-model="arr.username" type="text" placeholder=""></input>
+                </md-input-container>
+                </div>
+            </md-grid-tile>
+            <md-grid-tile md-colspan-xs="4" md-colspan-sm="4" md-colspan-md="6" md-colspan-lg="8" md-colspan-xl="10" md-rowspan-xs="2" md-rowspan-sm="2" class="gray">
+                <div id="portfolio_chart">
+                <d3-lines data="portfolio" datadate="mainGraphDate" sdate="selectedDate"></d3-lines>          
+                </div>
+            </md-grid-tile>
+        </md-grid-list>
+        <!--slider and dates-->
+        <md-grid-list md-cols-xs="4" md-cols-sm="4" md-cols-md="8" md-cols-lg="10" md-cols-xl="12"
+                        md-row-height="30px"
+                        md-gutter="8px"
+                        style="margin-top:8px">
+            <!--slider, sets end date-->
+            <md-grid-tile md-colspan-xs="4" md-colspan-sm="4" md-colspan-md="2" md-colspan-lg="2" md-colspan-xl="2" md-rowspan-xs="1" md-rowspan-sm="1">
+                
+            </md-grid-tile>
+            <md-grid-tile md-colspan-xs="4" md-colspan-sm="4" md-colspan-md="6" md-colspan-lg="8" md-colspan-xl="10" md-rowspan-xs="2" md-rowspan-sm="2">
+                <md-slider-container >
+                    <md-slider  class="m-slider" ng-style="{'width':'{{arr.SliderStyle}}'}" ng-disabled="arr.sliderDisable" ng-model="arr.slider"  min="0" max="{{arr.sliderRange}}" aria-label="nav Date" flex></md-slider>
+                </md-slider-container>           
+            </md-grid-tile>
+            <md-grid-tile md-colspan-xs="1" md-colspan-sm="1" md-colspan-md="1" md-colspan-lg="1" md-colspan-gt-lg="1"></md-grid-tile>
+        </md-grid-list>
+        <!--individual fund names, stats and charts-->
+        <!--15 funds [40,48,51,54,59,80,88,104,105,106,126,149,176,179,190]-->
+        <!--units, 1dreturn, 1dloss, 7dloss, 91dreturn, 182dreturn, 365dreturn, startyearreturn, startfundreturnindividualdates, startfundreturnequaldate -->
+        <!--loop through name, stats and graph of each fund -->
+        <md-grid-list md-cols-xs="4" md-cols-sm="4" md-cols-md="8" md-cols-lg="10" md-cols-xl="12"
+                        md-row-height-xs="80px" md-row-height-sm="80px" md-row-height-md="220px" md-row-height-lg="220px" md-row-height-xl="220px"
+                        md-gutter="8px"
+                        ng-repeat="eachTmp in arr.unitArr"
+                        class="{{eachTmp.classname}} md-port-grid">
+            <!--title, value and control for each fund-->
+            <md-grid-tile md-colspan-xs="4" md-colspan-sm="4" md-colspan-md="2" md-colspan-lg="2" md-colspan-xl="2" md-rowspan-xs="1" md-rowspan-sm="1">
+            <div layout="column">
+                <label class="md-label-warning">{{arr.errModel}}</label>
+                <md-input-container class="md-block">
+                <input type="number" ng-model="eachTmp.model" ng-change='unitChanged()' aria-label="nav nothing"></input>
+                </md-input-container>
+                <div>
+                <md-button class="md-raised" ng-click="onBuy(eachTmp.title)">Save</md-button>
+                <md-button class="md-raised" ng-click="onSell(eachTmp.title)">Discard</md-button>
+                </div>
+            </div>  
+            </md-grid-tile>
+            <!--fund line graph-->
+            <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan-md="6" md-colspan-lg="8" md-colspan-xl="10" md-rowspan-xs="2" md-rowspan-sm="2" class="gray">
+                <div id="{{eachTmp.lineID}}">
+                <d3-lines data="eachTmp.linedata" datadate="mainGraphDate" sdate="selectedDate"></d3-lines>
+                </div>
+            </md-grid-tile>
+        </md-grid-list>
+
+        <md-grid-list md-cols-xs="2" md-cols-sm="2" md-cols-md="8" md-cols-lg="10" md-cols-xl="12"
+                        md-row-height-xs="80px" md-row-height-sm="80px" md-row-height-md="220px" md-row-height-lg="220px" md-row-height-xl="220px"
+                        md-gutter="8px"
+                        class="md-port-grid">
+            <md-grid-tile md-colspan-xs="1" md-colspan-sm="1" md-colspan-md="2" md-colspan-lg="2" md-colspan-xl="2" md-rowspan-xs="1" md-rowspan-sm="1" class="gray">
+            <div layout="column">
+                <label class="md-label-portfolio">Select fund name</label>
+                <md-select ng-disabled="arr.sliderDisable" ng-model="arr.selectedFunds" placeholder="Each Funds" class="md-no-underline md-select-portfolio" ng-change="optChanged()">
+                <md-option ng-repeat="optFunds in arr.unitArr" value="{{optFunds.option}}">{{optFunds.option}}</md-option>
+                </md-select>
+            </div>
+            </md-grid-tile>
+            <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan-md="6" md-colspan-lg="8" md-colspan-xl="10" md-rowspan-xs="2" md-rowspan-sm="2" class="gray">
+                <div id="line_extra">
+                <d3-lines data="orgData" datadate="mainGraphDate" sdate="selectedDate"></d3-lines>
+                </div>
+            </md-grid-tile>
+        </md-grid-list>
+    </div>
+</div>

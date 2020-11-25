@@ -1,0 +1,15 @@
+{
+  "name": "angular",
+  "version": "1.5.5",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+  },
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mysql": "^2.12.0"
+  }
+}

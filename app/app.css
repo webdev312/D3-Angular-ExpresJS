@@ -1,0 +1,73 @@
+
+md-input-container .md-errors-spacer{
+    /*margin-top: 10px !important;*/
+    margin: 0 !important;
+    min-height: 0px !important;
+}
+
+md-input-container label{
+    /*margin-top: 10px !important;*/
+    margin-top: 20px !important;
+}
+
+.gray {
+/*background: #f5f5f5;*/
+
+}
+
+.md-toolbar-tools{
+    background: rgb(3,155,229);
+    background-image: url('http://fuse-angular-material.withinpixels.com/assets/images/backgrounds/header-bg.png');
+    color: white;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.md-port-grid{
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    margin-top:0px;
+}
+.md-label-warning{
+    color: rgb(233, 30, 99);
+}
+.dark-gray {
+    background: rgb(245, 245, 245); 
+    color: white;
+}
+.dark-gray label{
+    font-size: 18px;
+}
+.m-slider{
+    padding-left: 60px;
+    padding-right: 120px;
+    cursor : pointer;
+    margin-top: 40px;
+}
+.m-input{
+    margin-left: 20px;
+}
+.md-select-portfolio{
+    margin-top: 0px;
+    margin-bottom: 10px;
+    color: black;
+}
+.md-label-portfolio{
+    color: rgba(0,0,0,0.54);
+}
+.load-screen{
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: black;
+    opacity: 0.7;
+    z-index: 100;
+}
+.load-title{
+    left: 50%;
+}
+
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}

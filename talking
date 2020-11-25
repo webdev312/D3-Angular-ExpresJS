@@ -1,0 +1,162 @@
+IMAC-ERRANG.local (08:51):
+the value is 7216.49 on the date of bought
+WINDOWS-7S4JGRM (08:51):
+correct
+IMAC-ERRANG.local (08:52):
+the Valor is 7223.61
+so you need to change the value
+7223.61 - 7216.49?
+WINDOWS-7S4JGRM (08:52):
+correct
+IMAC-ERRANG.local (08:52):
+all are same.
+and only change the Valor title?
+WINDOWS-7S4JGRM (08:52):
+nope
+change the graph too
+we wouldn't see the jump in portfolio
+IMAC-ERRANG.local (08:53):
+then
+WINDOWS-7S4JGRM (08:53):
+It will become an index
+the first graph will not be value anymore
+IMAC-ERRANG.local (08:54):
+7223.61 - 7216.49
+then the graph looks like this
+then the graph will looks like this
+WINDOWS-7S4JGRM (08:55):
+It should cancel out most of the jump
+it would look almost flat
+we will go back to seeing the value of portfolio due to change in the price of units, not number of units
+Give me second
+I'm back
+IMAC-ERRANG.local (08:58):
+for example, the red graph
+do you want to change the red graph such as the third row graph
+?
+such as flat?
+WINDOWS-7S4JGRM (08:58):
+It will look closer to the third graph
+But it has the effect of many funds
+IMAC-ERRANG.local (08:59):
+give me a sec
+do you see?
+WINDOWS-7S4JGRM (09:01):
+Yes
+IMAC-ERRANG.local (09:02):
+isn't is flat?
+WINDOWS-7S4JGRM (09:02):
+It's not about how it looks
+Not about the scale
+Let me try to explain another way
+IMAC-ERRANG.local (09:03):
+ok.
+WINDOWS-7S4JGRM (09:03):
+Think of 999 as just another fund
+IMAC-ERRANG.local (09:03):
+yes
+WINDOWS-7S4JGRM (09:03):
+When we buy 40, we sell 999
+When we sell 190, we buy 999
+Every transaction is against 999
+999 therefore stores the money we have put into and taken out of the funds
+If you take a running total of 999 it shows the money invested
+Is it clear up to there?
+IMAC-ERRANG.local (09:05):
+yes
+WINDOWS-7S4JGRM (09:06):
+I want to substract the running total of 999 from the portfolio value calculation
+There
+IMAC-ERRANG.local (09:08):
+we did not use it yet.
+so do you want to substract it from portfolio data?
+right?
+WINDOWS-7S4JGRM (09:09):
+Yes
+IMAC-ERRANG.local (09:09):
+ok. 
+sorry.
+it was not easy to understanding for me.
+WINDOWS-7S4JGRM (09:09):
+please look at 314 in portCtrl
+IMAC-ERRANG.local (09:09):
+because i don't know more detail about new val.
+ok.
+would you give me newVal calculation formula again?
+I will calculate it and substract from portfolio data.
+WINDOWS-7S4JGRM (09:11):
+It seems you don't have the array yet.
+It would be a running total to the units in fund 999
+Please let me explain in portCtrl
+line 314 
+correct 
+each transaction is a 999 buy or sell
+that one is a sell 999
+the other one is a buy 999 (sell other fund)
+IMAC-ERRANG.local (09:14):
+yes
+WINDOWS-7S4JGRM (09:14):
+The number of units of 999 is, for example, unitsfund40 * pricefund40
+IMAC-ERRANG.local (09:16):
+yes
+WINDOWS-7S4JGRM (09:16):
+units 999 8*2196.71
+IMAC-ERRANG.local (09:16):
+yes
+WINDOWS-7S4JGRM (09:16):
+$17,573.70
+IMAC-ERRANG.local (09:16):
+yes
+WINDOWS-7S4JGRM (09:16):
+precisely
+So you can build a running total of units in 999
+With that transaction on the screen it would be 0,....
+-17573.700488
+and that same number going forward
+IMAC-ERRANG.local (09:18):
+yes
+WINDOWS-7S4JGRM (09:18):
+Each new transaction will add (a fund sale) or substract (a fund purchase) to that running sum 
+IMAC-ERRANG.local (09:19):
+then the array will be
+0,0,....0, 17573.70-17573.70, 17577.70-17573.70, ......
+WINDOWS-7S4JGRM (09:19):
+just -17573
+IMAC-ERRANG.local (09:19):
+therefore
+0, 0, ... 0, 0.01, 0.05, 0.032, ......
+WINDOWS-7S4JGRM (09:20):
+not 17573 -17573
+this is a running sum
+0,0,0....-17573,-17573,...
+Here we sold the fund
+IMAC-ERRANG.local (09:21):
+yes
+WINDOWS-7S4JGRM (09:22):
+so it add to 999
+17847.093...
+the running sum will then go
+IMAC-ERRANG.local (09:23):
+then the array will be
+0,0,0....-17573,-17573,17847.09, 17847.09...
+WINDOWS-7S4JGRM (09:24):
+0,0,0,...-17573,....,(847-573)
+IMAC-ERRANG.local (09:24):
+yes, I've got it.
+yes, I can create that array.
+WINDOWS-7S4JGRM (09:25):
+great
+You have to substract that array
+just the running total at that date
+IMAC-ERRANG.local (09:26):
+with portfolio array?
+WINDOWS-7S4JGRM (09:26):
+yes from portfolio array
+IMAC-ERRANG.local (09:26):
+portfolio array - that array?
+portfolio array - that array = new array.
+draw portfolio graph with new array?
+WINDOWS-7S4JGRM (09:27):
+exactly
+$scope.arr.unitArr[i].newVal = $rootScope.TotalData[i].u[$rootScope.TotalData[i].ulen - 1] * $scope.arr.unitArr[i].model - new999array
+[i]
